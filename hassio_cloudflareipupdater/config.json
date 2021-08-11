@@ -1,10 +1,10 @@
 {
   "name": "Cloudflare IP Updater",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "slug": "hassio_cloudflareipupdater",
   "description": "Dynamic IP Updater for Cloudflare in hass.io",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-  "url": "https://github.com/davidramosweb/hassio_cloudflareipupdater",
+  "url": "https://github.com/algoz098/hassio-addons",
   "startup": "system",
   "boot": "auto",
 
