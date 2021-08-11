@@ -155,7 +155,7 @@ else
 
     dns_record_response=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$dns_record_id" \
             -H "Authorization: Bearer $API" \
-            -H "Content-Type: application/json"
+            -H "Content-Type: application/json" \
             --data "$new_dns_record")
 fi
 
