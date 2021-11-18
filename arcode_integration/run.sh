@@ -4,12 +4,12 @@ REPO="local"
 SLUG="arcode_integration"
 NAME="${REPO}_${SLUG}"
 
-echo __BASHIO_LOG_LEVEL ${__BASHIO_LOG_LEVEL}
-$(bashio::log.level info)
 ACCESS_TOKEN=$(bashio::config 'accessToken')
 DEVICES=$(bashio::config 'devices')
 DEVICES="[${DEVICES//$'\n'/,}]"
 LENGTH=$(echo $DEVICES | jq length)
+
+BASE_URL="https://smart-be.arcode.online"
 
 function getDeviceData() {
   local ITEM=${1}
@@ -38,22 +38,36 @@ function mountPayload() {
   echo "{\"value\": $VALUE, \"meta\": {\"forMsTime\": $FOR_MS_TIME, \"above\": $ABOVE, \"below\": $BELOW }}"
 }
 
+function haLivecheck() {
+  bashio::log.info "HA Livechecking"
+  local URL="${BASE_URL}/ha-livecheck"
+  bashio::log.info "${URL}"
+
+  echo $(curl -s -X PATCH \
+    -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d "{}" \
+    $URL)
+}
+
 function reportData() {
   local ITEM=${1}
   local PAYLOAD=${2}
   local REMOTE_ID=$(echo $ITEM | jq ".remoteId")
-  local URL="https://smart-be.arcode.online/remote-entities/external/${REMOTE_ID//$'"'/}"
+  local URL="${BASE_URL}/remote-entities/external/${REMOTE_ID//$'"'/}"
 
   bashio::log.info "Reporting data for $REMOTE_ID in $URL"
   bashio::log.info "payload $PAYLOAD"
 
-  echo $(curl -s -X POST \
+  echo $(curl -s -X PATCH \
     -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     -H "Content-Type: application/json" \
     -d "$PAYLOAD" \
     $URL)
 }
 
+haLivecheckResult=$(haLivecheck)
+bashio::log.info "Result of HA Livecheck: ${haLivecheckResult}"
 for ((i=0; i < $LENGTH; i++)); do
   echo " "
   echo "STARTING INDEX $i"

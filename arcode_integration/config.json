@@ -1,6 +1,6 @@
 {
   "name": "ArCode IoT Integration",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "slug": "arcode_integration",
   "description": "ArCode's platform for enterprise's integration for HA ",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
