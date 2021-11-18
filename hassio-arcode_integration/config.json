@@ -1,0 +1,25 @@
+{
+  "name": "ArCode IoT Integration",
+  "version": "0.9.0",
+  "slug": "arcode_integration",
+  "description": "ArCode's platform for enterprise's integration for HA ",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "before",
+  "homeassistant_api": true,
+  "hassio_api": true,
+  "hassio_role": "homeassistant",
+  "boot": "auto",
+  "options": {
+    "accessToken": "",
+    "devices": []
+  },
+  "schema": {
+    "accessToken": "str",
+    "devices": [
+      { "id": "str", "remoteId": "str", "pathToValue": "str", "above": "float?", "bellow": "float?", "forMsTime": "float" }
+    ]
+  },
+  "ports": {
+    "8000/tcp": 8000
+  }
+}
